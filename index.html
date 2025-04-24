@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz dia del Libro - Inicio</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f1ea;
+            color: #333;
+            text-align: center;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 50px 20px;
+        }
+        
+        h1 {
+            color: #8B4513;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+        }
+        
+        .btn-sorpresa {
+            background-color: #8B4513;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: transform 0.3s, background-color 0.3s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .btn-sorpresa:hover {
+            background-color: #6d370f;
+            transform: scale(1.05);
+        }
+        
+        /* Estilos para página de reseñas */
+        .reviews-container {
+            display: none;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .review {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: left;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .review h3 {
+            color: #8B4513;
+            margin-top: 0;
+        }
+        
+        .review-author {
+            font-style: italic;
+            color: #666;
+        }
+        
+        .btn-ver-mas {
+            background-color: #8B4513;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.3s, background-color 0.3s;
+            margin-top: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .btn-ver-mas:hover {
+            background-color: #6d370f;
+            transform: scale(1.05);
+        }
+        
+        /* Estilos para el árbol de libros */
+        .tree-container {
+            display: none;
+            width: 100%;
+            height: 80vh;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            background-color: #f8f5f0;
+        }
+        
+        .tree-trunk {
+            width: 40px;
+            height: 200px;
+            background-color: #5D4037;
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 10px 10px 0 0;
+            z-index: 1;
+            transition: all 1s ease;
+        }
+        
+        .branch {
+            position: absolute;
+            background-color: #795548;
+            height: 0;
+            transform-origin: bottom center;
+            border-radius: 5px;
+            opacity: 0;
+            transition: height 1.5s ease, opacity 0.5s ease, transform 1s ease;
+        }
+        
+        .book {
+            position: absolute;
+            width: 30px;
+            height: 40px;
+            background-color: #FF5722;
+            border-radius: 3px;
+            box-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            opacity: 0;
+            transition: opacity 0.5s ease, transform 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 2;
+        }
+        
+        .book:hover {
+            transform: scale(1.1);
+            z-index: 3;
+        }
+        
+        .navigation {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 10;
+        }
+        
+        .back-btn {
+            background-color: #8B4513;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background-color: #6d370f;
+            transform: scale(1.05);
+        }
+        
+        /* Nuevos estilos para el mensaje de feliz día del libro */
+        .message-container {
+            position: absolute;
+            top: 30%; /* Posición más arriba (cambiado de 50% a 30%) */
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 5;
+            opacity: 0;
+            transition: opacity 1s ease;
+            pointer-events: none;
+        }
+        
+        .happy-message {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #8B4513;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            margin: 0;
+            padding: 0;
+            white-space: nowrap;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+        
+        /* Clases para animaciones */
+        .tree-animate {
+            animation: treeDance 2s ease-in-out;
+        }
+        
+        @keyframes treeDance {
+            0%, 100% {
+                transform: translateX(-50%) rotate(0deg);
+            }
+            25% {
+                transform: translateX(-50%) rotate(5deg);
+            }
+            50% {
+                transform: translateX(-50%) rotate(-5deg);
+            }
+            75% {
+                transform: translateX(-50%) rotate(3deg);
+            }
+        }
+        
+        .branch-animate {
+            animation: branchShake 1.5s ease-in-out;
+        }
+        
+        @keyframes branchShake {
+            0%, 100% {
+                transform: rotate(var(--original-angle));
+            }
+            25% {
+                transform: rotate(calc(var(--original-angle) + 5deg));
+            }
+            50% {
+                transform: rotate(calc(var(--original-angle) - 5deg));
+            }
+            75% {
+                transform: rotate(calc(var(--original-angle) + 3deg));
+            }
+        }
+        
+        .book-animate {
+            animation: bookJump 0.8s ease-in-out;
+        }
+        
+        @keyframes bookJump {
+            0%, 100% {
+                transform: translateX(-50%);
+            }
+            50% {
+                transform: translateX(-50%) translateY(-20px);
+            }
+        }
+        
+        .visible {
+            opacity: 1;
+        }
+        
+        /* Nuevos estilos para las flores */
+        .flower {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            opacity: 0;
+            transform: scale(0);
+            transition: transform 1s ease, opacity 1s ease;
+            z-index: 1;
+        }
+        
+        .flower-center {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background-color: #FFC107;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .petal {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background-color: #FF4081;
+            border-radius: 50% 50% 0 50%;
+            top: 50%;
+            left: 50%;
+            transform-origin: 0 0;
+        }
+        
+        .flower.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .flower-animate {
+            animation: flowerSway 3s ease-in-out infinite;
+        }
+        
+        @keyframes flowerSway {
+            0%, 100% {
+                transform: rotate(0deg);
+            }
+            25% {
+                transform: rotate(15deg);
+            }
+            75% {
+                transform: rotate(-15deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="main-page">
+        <h1>Biblioteca Mágica</h1>
+        <p>Descubre un mundo de historias y conocimiento</p>
+        <button class="btn-sorpresa" id="btn-sorpresa">¡Sorpresa!</button>
+    </div>
+    
+    <!-- Página de reseñas -->
+    <div class="reviews-container" id="reviews-page">
+        <div class="navigation">
+            <button class="back-btn" id="back-to-main">Volver</button>
+        </div>
+        <h1>Frases para mi lectora hermosa</h1>
+        
+        <div class="review">
+            <h3>Mis dias a tu lado</h3>
+            <p>Mis dias a tu lados son como estar en el universo
+               aunque mis versos sean cortos lo escribo con el corazon
+               y que con esto quiero decirte lo mucho que me encanta
+               pasar mis dias a tu lado.
+            </p>
+            <p>
+                Tu eres mi futuro presente y pasado mi amada mia 
+                mia es la fortuna de tener a mi lado a una dama tan maravillosacomo tú
+                tú haces mis dias mas aun mas bonito.
+            </p>
+            <p class="review-author">- Gerardo Zelaya</p>
+        </div>
+        
+        <div class="review">
+            <h3>Mi Princesa</h3>
+            <p>Mi princesa no te imaginas lo orgulloso que estoy de tí lo estas haciendo bien 
+               todo tu esfuerzo, amor y cariño lo apresio y amo como no te imaginas no olvides
+               lo maravillosa que eres y lo inteligente que eres mi niña preciosa
+            </p>
+            <p class="review-author">- Rafael Flores</p>
+        </div>
+        
+        <div class="review">
+            <h3>¡Sorpresa!</h3>
+            <p>Me tome este pequeño tiempo para crearte esta pagina mi niña hermosa 
+               espero te guste es algo sencillo pero lo hice con mucho amor y cariño mi niña hermosa
+               al dar click veras algo bonito espero te guste mi lectora hermosa
+            </p>
+            <p class="review-author">- Ing. Gerardo Rafael Zelaya Flores</p>
+        </div>
+        
+        <button class="btn-ver-mas" id="btn-ver-mas">¡Feliz dia del libro mi niña!</button>
+    </div>
+    
+    <!-- Árbol de libros -->
+    <div class="tree-container" id="tree-page">
+        <div class="navigation">
+            <button class="back-btn" id="back-to-reviews">Volver</button>
+        </div>
+        <div class="tree-trunk"></div>
+        <!-- Las ramas y libros se generarán con JavaScript -->
+        
+        <!-- Contenedor para el mensaje -->
+        <div class="message-container" id="message-container">
+            <h2 class="happy-message">FELIZ DÍA DEL LIBRO</h2>
+        </div>
+    </div>
+    
+    <script>
+        // Elementos del DOM
+        const mainPage = document.getElementById('main-page');
+        const reviewsPage = document.getElementById('reviews-page');
+        const treePage = document.getElementById('tree-page');
+        const btnSorpresa = document.getElementById('btn-sorpresa');
+        const btnVerMas = document.getElementById('btn-ver-mas');
+        const backToMain = document.getElementById('back-to-main');
+        const backToReviews = document.getElementById('back-to-reviews');
+        const messageContainer = document.getElementById('message-container');
+        
+        // Nombres de libros para el árbol
+        const bookTitles = [
+            "Don Quijote", "Rayuela", "Ficciones", "Pedro Páramo", 
+            "La casa de los espíritus", "Crónica de una muerte anunciada",
+            "El Aleph", "El amor en los tiempos del cólera",
+            "La ciudad y los perros", "El túnel", "María", "Martín Fierro",
+            "Los detectives salvajes", "El laberinto de la soledad",
+            "La región más transparente", "Hopscotch", "Aura", "La tregua"
+        ];
+        
+        // Colores para los libros
+        const bookColors = [
+            "#FF5722", "#E91E63", "#9C27B0", "#673AB7", 
+            "#3F51B5", "#2196F3", "#03A9F4", "#00BCD4",
+            "#009688", "#4CAF50", "#8BC34A", "#CDDC39"
+        ];
+        
+        // Colores para las flores
+        const flowerColors = [
+            "#FF4081", "#E91E63", "#9C27B0", "#BA68C8",
+            "#F48FB1", "#F06292", "#EC407A", "#D81B60",
+            "#C2185B", "#AD1457", "#880E4F", "#FF80AB"
+        ];
+        
+        // Navegación entre páginas
+        btnSorpresa.addEventListener('click', () => {
+            mainPage.style.display = 'none';
+            reviewsPage.style.display = 'block';
+        });
+        
+        btnVerMas.addEventListener('click', () => {
+            reviewsPage.style.display = 'none';
+            treePage.style.display = 'block';
+            createTree();
+            createFlowers();
+            
+            // Después de crear el árbol, animarlo y mostrar el mensaje
+            setTimeout(() => {
+                animateTreeAndShowMessage();
+            }, 1500);
+        });
+        
+        backToMain.addEventListener('click', () => {
+            reviewsPage.style.display = 'none';
+            mainPage.style.display = 'block';
+        });
+        
+        backToReviews.addEventListener('click', () => {
+            treePage.style.display = 'none';
+            reviewsPage.style.display = 'block';
+        });
+        
+        // Función para crear flores alrededor del árbol
+        function createFlowers() {
+            const treeContainer = document.getElementById('tree-page');
+            const numFlowers = 15; // Número de flores a crear
+            
+            for(let i = 0; i < numFlowers; i++) {
+                // Crear contenedor de la flor
+                const flower = document.createElement('div');
+                flower.className = 'flower';
+                
+                // Posición aleatoria alrededor del árbol
+                const angle = Math.random() * 360;
+                const distance = 100 + Math.random() * 150; // Distancia del centro en píxeles
+                
+                const posX = Math.cos(angle * Math.PI / 180) * distance;
+                const posY = Math.sin(angle * Math.PI / 180) * distance;
+                
+                flower.style.bottom = `${Math.abs(posY) + 20}px`; // Solo flores por encima del suelo
+                flower.style.left = `calc(50% + ${posX}px)`;
+                
+                // Crear centro de la flor
+                const center = document.createElement('div');
+                center.className = 'flower-center';
+                flower.appendChild(center);
+                
+                // Crear pétalos
+                const numPetals = 5 + Math.floor(Math.random() * 3);
+                const colorIndex = Math.floor(Math.random() * flowerColors.length);
+                const petalColor = flowerColors[colorIndex];
+                
+                for(let j = 0; j < numPetals; j++) {
+                    const petal = document.createElement('div');
+                    petal.className = 'petal';
+                    const petalAngle = (j / numPetals) * 360;
+                    petal.style.transform = `rotate(${petalAngle}deg) translate(-50%, -50%)`;
+                    petal.style.backgroundColor = petalColor;
+                    flower.appendChild(petal);
+                }
+                
+                treeContainer.appendChild(flower);
+            }
+        }
+        
+        // Función para animar el árbol y mostrar el mensaje
+        function animateTreeAndShowMessage() {
+            // Animar el tronco
+            const trunk = document.querySelector('.tree-trunk');
+            trunk.classList.add('tree-animate');
+            
+            // Animar las ramas
+            const branches = document.querySelectorAll('.branch');
+            branches.forEach(branch => {
+                const originalAngle = branch.style.transform.match(/rotate\(([^)]+)deg\)/)[1];
+                branch.style.setProperty('--original-angle', `${originalAngle}deg`);
+                branch.classList.add('branch-animate');
+            });
+            
+            // Animar los libros
+            const books = document.querySelectorAll('.book');
+            books.forEach((book, index) => {
+                setTimeout(() => {
+                    book.classList.add('book-animate');
+                }, index * 100);
+            });
+            
+            // Mostrar el mensaje
+            setTimeout(() => {
+                messageContainer.classList.add('visible');
+            }, 1000);
+            
+            // Mostrar y animar las flores
+            setTimeout(() => {
+                const flowers = document.querySelectorAll('.flower');
+                flowers.forEach((flower, index) => {
+                    setTimeout(() => {
+                        flower.classList.add('visible');
+                        flower.classList.add('flower-animate');
+                    }, index * 100);
+                });
+            }, 1500);
+            
+            // Quitar las animaciones después de que terminen
+            setTimeout(() => {
+                trunk.classList.remove('tree-animate');
+                branches.forEach(branch => branch.classList.remove('branch-animate'));
+                books.forEach(book => book.classList.remove('book-animate'));
+            }, 2000);
+        }
+        
+        // Función para crear el árbol con animación
+        function createTree() {
+            const treeContainer = document.getElementById('tree-page');
+            const trunk = document.querySelector('.tree-trunk');
+            
+            // Limpiar árbol existente (excepto el tronco)
+            const existingElements = treeContainer.querySelectorAll('.branch, .book');
+            existingElements.forEach(el => el.remove());
+            
+            // Obtener dimensiones del tronco
+            const trunkHeight = 200; // Altura del tronco
+            const trunkWidth = 40;   // Ancho del tronco
+            
+            // Crear ramas principales que crecen desde la punta del tronco
+            const numMainBranches = 12; // 12 ramas principales
+            const branchesData = [];
+            
+            // Crear ramas en todas direcciones desde la punta
+            for (let i = 0; i < numMainBranches; i++) {
+                // Todas las ramas salen de la punta del tronco
+                const verticalPosition = trunkHeight;
+                
+                // Calcular ángulo para esta rama (distribuidas radialmente)
+                const angle = (i / numMainBranches) * 360;
+                
+                // Todas las ramas del mismo tamaño (como en el original)
+                const height = 80;
+                const width = 12;
+                
+                branchesData.push({
+                    id: `main-${i}`,
+                    height,
+                    angle,
+                    verticalPosition,
+                    width,
+                    isRight: angle <= 180
+                });
+                
+                const branch = document.createElement('div');
+                branch.className = 'branch';
+                branch.id = `main-${i}`;
+                branch.style.width = `${width}px`;
+                branch.style.height = '0px';
+                
+                // Posicionar la rama en la punta del tronco
+                branch.style.bottom = `${verticalPosition}px`;
+                branch.style.left = '50%';
+                
+                // Determinar el origen de la transformación basado en el ángulo
+                branch.style.transformOrigin = angle <= 180 ? 'left bottom' : 'right bottom';
+                branch.style.transform = `rotate(${angle}deg)`;
+                
+                treeContainer.appendChild(branch);
+            }
+            
+            // Animar la aparición de las ramas principales
+            animateBranches(branchesData, () => {
+                // Una vez que todas las ramas principales están visibles, añadir libros
+                addBooksToTree(branchesData);
+            });
+        }
+        
+        // Función para animar ramas
+        function animateBranches(branchesData, callback) {
+            const branches = document.querySelectorAll('.branch');
+            
+            function animateBranchWithDelay(index) {
+                if (index >= branches.length) {
+                    if (callback) callback();
+                    return;
+                }
+                
+                setTimeout(() => {
+                    branches[index].style.opacity = 1;
+                    const targetHeight = branchesData[index].height;
+                    branches[index].style.height = `${targetHeight}px`;
+                    
+                    animateBranchWithDelay(index + 1);
+                }, 200);
+            }
+            
+            animateBranchWithDelay(0);
+        }
+        
+        // Función para añadir libros al árbol (como en el original)
+        function addBooksToTree(branchesData) {
+            const treeContainer = document.getElementById('tree-page');
+            let bookIndex = 0;
+            
+            // Añadir libros a las ramas principales
+            branchesData.forEach((branch, index) => {
+                // 1-2 libros por rama (como en el original)
+                const numBooks = 1 + Math.floor(Math.random() * 2);
+                
+                for (let i = 0; i < numBooks; i++) {
+                    if (bookIndex >= bookTitles.length) bookIndex = 0;
+                    
+                    const book = document.createElement('div');
+                    book.className = 'book';
+                    book.textContent = '📚'; // Como en el original
+                    
+                    // Calcular posición del libro en la rama (75-95% de la longitud)
+                    const positionOnBranch = 75 + Math.random() * 20;
+                    
+                    const angleRad = branch.angle * (Math.PI / 180);
+                    const branchLength = branch.height;
+                    const positionOnBranchPx = (positionOnBranch / 100) * branchLength;
+                    
+                    const offsetX = positionOnBranchPx * Math.sin(angleRad);
+                    const offsetY = positionOnBranchPx * Math.cos(angleRad);
+                    
+                    const bottom = branch.verticalPosition + offsetY;
+                    const left = `calc(50% + ${offsetX}px)`;
+                    
+                    book.style.bottom = `${bottom}px`;
+                    book.style.left = left;
+                    book.style.transform = 'translateX(-50%)';
+                    
+                    // Color del libro (como en el original)
+                    const colorIndex = bookIndex % bookColors.length;
+                    book.style.backgroundColor = bookColors[colorIndex];
+                    
+                    // Añadir título al libro como tooltip (como en el original)
+                    book.title = bookTitles[bookIndex];
+                    
+                    treeContainer.appendChild(book);
+                    bookIndex++;
+                }
+            });
+            
+            // Animar la aparición de los libros (como en el original)
+            const books = document.querySelectorAll('.book');
+            
+            function animateBookWithDelay(index) {
+                if (index >= books.length) return;
+                
+                setTimeout(() => {
+                    books[index].style.opacity = 1;
+                    animateBookWithDelay(index + 1);
+                }, 150);
+            }
+            
+            // Iniciar la animación de los libros después de un breve retraso
+            setTimeout(() => {
+                animateBookWithDelay(0);
+            }, 500);
+        }
+    </script>
+</body>
+</html>
